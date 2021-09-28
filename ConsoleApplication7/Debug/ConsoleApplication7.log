@@ -1,0 +1,111 @@
+﻿  ConsoleApplication7.cpp
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(13,11): error C2143: синтаксическая ошибка: отсутствие ";" перед "*"
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(13,11): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(13,16): error C2238: непредвиденные лексемы перед ";"
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(42,12): error C2061: синтаксическая ошибка: идентификатор "int_to_string"
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(43,5): error C2334: непредвиденные лексемы перед "{"; пропуск вероятного тела функции
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(51,9): error C2988: неопознанное объявление или определение шаблона
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(51,9): error C2059: синтаксическая ошибка: if
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(51,46): error C2334: непредвиденные лексемы перед "{"; пропуск вероятного тела функции
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(56,9): error C2988: неопознанное объявление или определение шаблона
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(56,9): error C2059: синтаксическая ошибка: if
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(56,47): error C2334: непредвиденные лексемы перед "{"; пропуск вероятного тела функции
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(61,9): error C2988: неопознанное объявление или определение шаблона
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(61,9): error C2059: синтаксическая ошибка: return
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(61,20): error C2238: непредвиденные лексемы перед ";"
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(63,5): error C2628: недопустимый "Parser" с последующим "bool" (возможно, отсутствует ";")
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(64,13): error C3861: check_cord: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(65,50): error C2065: WIDTH: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(66,18): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(66,25): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(66,140): error C2065: WIDTH: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(67,17): error C3861: add_line: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(68,29): error C2440: return: невозможно преобразовать "bool" в "Parser"
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(68,29): message : Ни один конструктор не смог принять исходный тип, либо разрешение перегрузки конструктора неоднозначно
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(70,50): error C2065: HEIGHT: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(71,18): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(71,25): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(71,141): error C2065: HEIGHT: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(72,17): error C3861: add_line: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(73,29): error C2440: return: невозможно преобразовать "bool" в "Parser"
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(73,29): message : Ни один конструктор не смог принять исходный тип, либо разрешение перегрузки конструктора неоднозначно
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(75,24): error C2440: return: невозможно преобразовать "bool" в "Parser"
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(75,24): message : Ни один конструктор не смог принять исходный тип, либо разрешение перегрузки конструктора неоднозначно
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(77,26): error C2440: return: невозможно преобразовать "bool" в "Parser"
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(77,26): message : Ни один конструктор не смог принять исходный тип, либо разрешение перегрузки конструктора неоднозначно
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(16,10): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(16,17): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(29,27): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(80,13): error C3861: check_cord: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(81,56): error C2065: WIDTH: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(81,95): error C2065: HEIGHT: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(82,18): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(82,25): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(82,156): error C3861: min_of_2: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(82,181): error C2065: WIDTH: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(82,192): error C2065: HEIGHT: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(82,147): error C3861: min_of_2: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(82,133): error C3861: int_to_string: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(83,17): error C3861: add_line: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(92,17): error C3861: check_cord: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(93,54): error C2065: WIDTH: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(94,22): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(94,29): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(94,144): error C2065: WIDTH: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(95,21): error C3861: add_line: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(98,54): error C2065: HEIGHT: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(99,22): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(99,29): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(99,145): error C2065: HEIGHT: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(100,21): error C3861: add_line: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(107,14): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(107,21): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(107,143): error C3861: min_of_2: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(107,129): error C3861: int_to_string: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(108,13): error C3861: add_line: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(116,31): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(128,10): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(128,17): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(129,9): error C3861: add_line: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(139,40): error C2065: col_int: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(140,17): error C2065: cout: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(140,121): error C2065: col_int: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(140,132): error C2065: endl: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(146,14): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(146,21): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(147,13): error C3861: add_line: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(155,21): error C3861: char_to_int: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(155,48): error C3861: char_to_int: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(157,17): error C3861: check_cord: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(158,44): error C2065: col_int: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(160,21): error C2065: cout: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(160,124): error C2065: col_int: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(160,135): error C2065: endl: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(164,10): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(164,17): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(165,9): error C3861: add_line: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(172,21): error C3861: char_to_int: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(172,48): error C3861: char_to_int: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(172,76): error C3861: char_to_int: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(172,104): error C3861: char_to_int: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(174,17): error C3861: check_cord: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(174,37): error C3861: check_cord: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(175,44): error C2065: col_int: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(177,21): error C2065: cout: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(177,162): error C2065: col_int: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(177,173): error C2065: endl: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(181,10): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(181,17): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(182,9): error C3861: add_line: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(190,21): error C3861: char_to_int: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(190,48): error C3861: char_to_int: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(190,75): error C3861: char_to_int: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(190,102): error C3861: char_to_int: идентификатор не найден
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(192,37): error C2451: недопустимое условное выражение типа "Parser"
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(192,25): message : Для выполнения данного преобразования нет доступного оператора преобразования, определенного пользователем, или вызов оператора невозможен
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(193,44): error C2065: col_int: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(195,21): error C2065: cout: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(195,172): error C2065: col_int: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(195,183): error C2065: endl: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(199,10): error C2065: err: необъявленный идентификатор
+C:\Users\danma\source\repos\ConsoleApplication7\Pars.h(199,14): fatal error C1003: число ошибок превышает 100; остановка компиляции
