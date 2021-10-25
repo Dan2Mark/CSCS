@@ -1,17 +1,19 @@
-#ifndef Pars
-#define Pars
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <iostream>
 #include <string>
 #include <locale.h>
 #include <sstream>
+#include <vector>
+
+using namespace std;
 
 class Parser {
-private:
+public:
     int const WIDTH = 800;
     int const HEIGHT = 600;
     string* err;
-    char** words = NULL;
+    char** words;
     void add_line() {
         *err = *err + "--------------------------------------\n";
     }
@@ -112,11 +114,10 @@ private:
     // проверка цвета
     bool check_color(char col[], int* col_i) {
         int col_int = 0, err_ = 0;
-        if (strlen(col) == 3) {
+        if (strlen(col) == 6) {
             for (int i = 0; i < strlen(col); i++) {
-                int buf = col[i] - '0';
-                if (buf <= 8) {
-                    col_int = col_int * 10 + buf;
+                if (((col[i] >= '0')&& (col[i] <= '9'))|| ((col[i] >= 'A') && (col[i] <= 'F')) || ((col[i] >= 'a') && (col[i] <= 'f'))) {
+                    err_ = 0;
                 }
                 else err_ = 1;
             }
@@ -137,7 +138,7 @@ private:
         {
             int col_int;
             if (check_color(words[1], &col_int)) {
-                cout << "вызвана команда очистки дисплея c параметром color: " << col_int << endl;
+                cout << "вызвана команда очистки дисплея c параметром color: " << words[cnt-1] << endl;
                 return true;
             }
         }
@@ -157,7 +158,7 @@ private:
             if (check_cord(x, y))
                 if (check_color(words[3], &col_int))
                 {
-                    cout << "Вызвана команда заливки пикселя (" << x << "; " << y << ") : " << col_int << endl;
+                    cout << "Вызвана команда заливки пикселя (" << x << "; " << y << ") : " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -174,7 +175,7 @@ private:
             if (check_cord(x, y) && check_cord(x1, y1))
                 if (check_color(words[5], &col_int))
                 {
-                    cout << "Вызвана команда создания линии A:(" << x << "; " << y << "); B:(" << x1 << "; " << y1 << "); color: " << col_int << endl;
+                    cout << "Вызвана команда создания линии A:(" << x << "; " << y << "); B:(" << x1 << "; " << y1 << "); color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -192,7 +193,7 @@ private:
             if (check_wh(w, h, x, y))
                 if (check_color(words[5], &col_int))
                 {
-                    cout << "Вызвана команда прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; color: " << col_int << endl;
+                    cout << "Вызвана команда прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -210,7 +211,7 @@ private:
             if (check_wh(w, h, x, y))
                 if (check_color(words[5], &col_int))
                 {
-                    cout << "Вызвана команда создания залитого прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; color: " << col_int << endl;
+                    cout << "Вызвана команда создания залитого прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -228,7 +229,7 @@ private:
             if (check_rad(rad_x, x, y) && check_rad(rad_y, x, y))
                 if (check_color(words[5], &col_int))
                 {
-                    cout << "Вызвана команда создания эллипса A:(" << x << "; " << y << "); radius_x: " << rad_x << "; radius_y: " << rad_y << "; color: " << col_int << endl;
+                    cout << "Вызвана команда создания эллипса A:(" << x << "; " << y << "); radius_x: " << rad_x << "; radius_y: " << rad_y << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -246,7 +247,7 @@ private:
             if (check_rad(rad_x, x, y) && check_rad(rad_y, x, y))
                 if (check_color(words[5], &col_int))
                 {
-                    cout << "Вызвана команда создания залитого эллипса A:(" << x << "; " << y << "); radius_x: " << rad_x << "; radius_y: " << rad_y << "; color: " << col_int << endl;
+                    cout << "Вызвана команда создания залитого эллипса A:(" << x << "; " << y << "); radius_x: " << rad_x << "; radius_y: " << rad_y << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -263,7 +264,7 @@ private:
             if (check_rad(rad, x, y))
                 if (check_color(words[4], &col_int))
                 {
-                    cout << "Вызвана команда создания окружности A:(" << x << "; " << y << "); radius: " << rad << "; color: " << col_int << endl;
+                    cout << "Вызвана команда создания окружности A:(" << x << "; " << y << "); radius: " << rad << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -280,7 +281,7 @@ private:
             if (check_rad(rad, x, y))
                 if (check_color(words[4], &col_int))
                 {
-                    cout << "Вызвана команда создания заполненого круга A:(" << x << "; " << y << "); radius: " << rad << "; color: " << col_int << endl;
+                    cout << "Вызвана команда создания заполненого круга A:(" << x << "; " << y << "); radius: " << rad << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -297,7 +298,7 @@ private:
             if (check_whrad(w, h, x, y, rad))
                 if (check_color(words[6], &col_int))
                 {
-                    cout << "Вызвана команда создания прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; radius: " << rad << "; color: " << col_int << endl;
+                    cout << "Вызвана команда создания прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; radius: " << rad << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -314,7 +315,7 @@ private:
             if (check_whrad(w, h, x, y, rad))
                 if (check_color(words[6], &col_int))
                 {
-                    cout << "Вызвана команда создания залитого прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; radius: " << rad << "; color: " << col_int << endl;
+                    cout << "Вызвана команда создания залитого прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; radius: " << rad << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -339,7 +340,7 @@ private:
                     if (check_cord(x, y))
                         if (check_color(words[cnt - 1], &col_int))
                         {
-                            cout << "Вызвана команда добавление текста А: (" << x << "; " << y << "); font: " << font << "; length: " << lenght << "; text: ''" << text << "''; color: " << col_int << endl;
+                            cout << "Вызвана команда добавление текста А: (" << x << "; " << y << "); font: " << font << "; length: " << lenght << "; text: ''" << text << "''; color: " << words[cnt-1] << endl;
                             return true;
                         }
                 }
@@ -443,95 +444,97 @@ private:
 
 
     // проверка команды
-    void check_cmd(int cnt, bool* end_prog) {
+    bool check_cmd(int cnt, bool* end_prog) {
         setlocale(LC_ALL, "Russian");
         add_line();
         //exit
-        if (strcmp(words[0], "exit") == 0) { *end_prog = true; }
+        if (strcmp(words[0], "exit") == 0) { *end_prog = true; return true; }
         //clear color
         else if (strcmp(words[0], "clear") == 0)
         {
-            clear(words, cnt);
+            return clear(words, cnt);
         }
         //pixel x1 y1 color
         else if (strcmp(words[0], "pixel") == 0)
         {
-            pixel(words, cnt);
+            return pixel(words, cnt);
         }
         //line x1 y1 x2 y2 color
         else if (strcmp(words[0], "line") == 0)
         {
-            line(words, cnt);
+            return line(words, cnt);
         }
         //rect x1 y1 w h color
         else if (strcmp(words[0], "rect") == 0)
         {
-            rect(words, cnt);
+            return rect(words, cnt);
         }
         //fill_rect x1 y1 w h color
         else if (strcmp(words[0], "fill_rect") == 0)
         {
-            fill_rect(words, cnt);
+            return fill_rect(words, cnt);
         }
         //ell x y rad_x rad_y color
         else if (strcmp(words[0], "ell") == 0)
         {
-            ell(words, cnt);
+            return ell(words, cnt);
         }
         //fill_ell x y rad_x rad_y color
         else if (strcmp(words[0], "fill_ell") == 0)
         {
-            fill_ell(words, cnt);
+            return fill_ell(words, cnt);
         }
         //circle x y rad color
         else if (strcmp(words[0], "circle") == 0)
         {
-            circle(words, cnt);
+            return circle(words, cnt);
         }
         //fill_circle x y rad color
         else if (strcmp(words[0], "fill_circle") == 0)
         {
-            fill_circle(words, cnt);
+            return fill_circle(words, cnt);
         }
         //round_rect x1 y1 w h radius color
         else if (strcmp(words[0], "round_rect") == 0)
         {
-            round_rect(words, cnt);
+            return round_rect(words, cnt);
         }
         //fill_round_rect x1 y1 w h radius color
         else if (strcmp(words[0], "fill_round_rect") == 0)
         {
-            fill_round_rect(words, cnt);
+            return fill_round_rect(words, cnt);
         }
         //text x1 y1 font lenght text color
         else if (strcmp(words[0], "text") == 0)
         {
-            text(words, cnt);
+            return text(words, cnt);
         }
         //img x1 y1 w h data
         else if (strcmp(words[0], "img") == 0)
         {
-            img(words, cnt);
+            return img(words, cnt);
         }
         //orintation angle
         else if (strcmp(words[0], "orintation") == 0)
         {
-            orintation(words, cnt);
+            return orintation(words, cnt);
         }
         //get width/height
         else if (strcmp(words[0], "get") == 0)
         {
-            get(words, cnt);
+            return get(words, cnt);
         }
         else
         {
-            *err = "Команда не найдена\n";
+            *err = *err + "Команда не найдена\n";
             add_line();
+            return false;
         }
     }
 
     // разбив на лексемы
-    void lecs(char str[], bool* end_prog) {
+    bool lecs(char str[], bool* end_prog) {
+        
         char* p = NULL;
         int i, count_ = 0;
         for (p = strtok(str, " "); p != NULL; p = strtok(NULL, " ")) {
@@ -545,10 +548,10 @@ private:
             }
             ++count_;
         }
+      
+        bool err_ = check_cmd(count_, end_prog);
 
-        check_cmd(count_, end_prog);
-
-        for (i = 0; i < count_; ++i) {
+        for (int i = 0; i < count_; ++i) {
             if (words[i] != NULL) {
                 free(words[i]);
                 words[i] = NULL;
@@ -556,12 +559,11 @@ private:
         }
         free(words);
         words = NULL;
+        return err_;
     }
-public: bool do_cmd(char str[], bool* end_prog, string* er)
-{
-    err = er;
-    lecs(str, end_prog);
-    return true;
-}
+    bool do_cmd(char str[], bool* end_prog, string* er)
+    {
+        err = er;
+        return lecs(str, end_prog);
+    }
 };
-#endif

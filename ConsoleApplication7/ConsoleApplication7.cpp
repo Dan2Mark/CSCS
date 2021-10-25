@@ -19,6 +19,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+
     bool end_prog = false;
     char buff[1024], buff_[1024];
     // подключение библиотеки 
@@ -37,7 +38,7 @@ int main(int argc, char* argv[])
         WSACleanup();
         return -1;
     };
-
+    
     // связывание сокета с локальным адресом 
     sockaddr_in local_addr;
     local_addr.sin_family = AF_INET;
@@ -75,7 +76,6 @@ int main(int argc, char* argv[])
         printf("C=>S:%s\n", &buff[0]);
         string err;
         Parser a;
-        cout << "buf: " << buff << endl;
         a.do_cmd(buff, &end_prog, &err);
         int bsize_;
         if (err != "--------------------------------------\n") {
