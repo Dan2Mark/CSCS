@@ -10,17 +10,25 @@
 #include <Windows.h>
 #include <sstream>
 #include "Pars.h"
+#include <cstdio>
+#include "bitmap/bitmap_image.hpp"
 #define PORT 7777    // порт сервера
 
 using namespace std;
 
 
+Parser* pb;
 
+DWORD WINAPI print(LPVOID lpParam) {
+    while (true){
+    pb->print();
+    Sleep (100);
+}
+    return 0;
+}
 
 int main(int argc, char* argv[])
-{
-
-    bool end_prog = false;
+{   bool end_prog = false;
     char buff[1024], buff_[1024];
     // подключение библиотеки 
     if (WSAStartup(0x202, (WSADATA*)&buff[0]))
@@ -54,6 +62,10 @@ int main(int argc, char* argv[])
         return -1;
     };
 
+    Parser b;
+    pb = &b;
+    DWORD dwThreadId, dwThrdParam = 1;
+    HANDLE hThread = CreateThread(NULL, 0, print, &dwThrdParam, 0, &dwThreadId);
     // обработка пакетов, присланных клиентами
     while (!end_prog)
     { 
@@ -66,17 +78,14 @@ int main(int argc, char* argv[])
         // Определяем IP-адрес клиента и прочие атрибуты
         HOSTENT* hst;
         hst = gethostbyaddr((char*)&client_addr.sin_addr, 4, AF_INET);
-        printf("+%s [%s:%d] new DATAGRAM!\n", (hst) ? hst->h_name : "Unknown host", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+       // printf("+%s [%s:%d] new DATAGRAM!\n", (hst) ? hst->h_name : "Unknown host", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
 
         // добавление завершающего нуля
         buff[bsize-1] = ' ';
         buff[bsize] = 0;
 
-        // Вывод на экран 
-        printf("C=>S:%s\n", &buff[0]);
         string err;
-        Parser a;
-        a.do_cmd(buff, &end_prog, &err);
+        b.do_cmd(buff, &end_prog, &err);
         int bsize_;
         if (err != "--------------------------------------\n") {
             cout << err << endl;
@@ -87,5 +96,7 @@ int main(int argc, char* argv[])
         // посылка датаграммы клиенту
         sendto(Socket, &buff_[0], bsize_, 0, (sockaddr*)&client_addr, sizeof(client_addr));
     }
+
+    CloseHandle(hThread);
     return 0;
 }

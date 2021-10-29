@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
         // чтение сообщения с клавиатуры
         cout << "\nEnter command:\n";  fgets(&buff[0], sizeof(buff) - 1, stdin);
         if (!strcmp(&buff[0], "quit\n")) break;
-
+        
         // Передача сообщений на сервер
         sendto(my_sock, &buff[0], strlen(&buff[0]), 0, (sockaddr*)&dest_addr, sizeof(dest_addr));
 

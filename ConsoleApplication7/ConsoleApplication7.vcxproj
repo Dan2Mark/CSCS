@@ -149,6 +149,10 @@
   <ItemGroup>
     <ClCompile Include="ConsoleApplication7.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="draw.h" />
+    <ClInclude Include="Pars.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

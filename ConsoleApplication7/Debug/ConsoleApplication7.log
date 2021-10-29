@@ -1,7 +1,30 @@
 ﻿  ConsoleApplication7.cpp
-C:\git_code\ConsoleApplication7\Pars.h(31,27): warning C4018: <: несоответствие типов со знаком и без знака
-C:\git_code\ConsoleApplication7\Pars.h(118,31): warning C4018: <: несоответствие типов со знаком и без знака
-C:\git_code\ConsoleApplication7\Pars.h(407,17): warning C4101: col_int: неиспользованная локальная переменная
-C:\git_code\ConsoleApplication7\Pars.h(539,13): warning C4101: i: неиспользованная локальная переменная
-C:\git_code\ConsoleApplication7\Pars.h(151): warning C4715: Parser::clear: значение возвращается не при всех путях выполнения
+C:\git_code\ConsoleApplication7\draw.h(48,19): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(56,27): warning C4018: <: несоответствие типов со знаком и без знака
+C:\git_code\ConsoleApplication7\draw.h(153,37): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(159,37): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(170,39): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(171,37): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(183,39): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(184,37): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(197,37): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(201,37): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(214,43): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(219,43): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(224,43): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(229,43): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(242,40): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(243,41): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(253,39): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\draw.h(254,41): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\git_code\ConsoleApplication7\Pars.h(35,27): warning C4018: <: несоответствие типов со знаком и без знака
+C:\git_code\ConsoleApplication7\Pars.h(122,31): warning C4018: <: несоответствие типов со знаком и без знака
+C:\git_code\ConsoleApplication7\Pars.h(417,17): warning C4101: col_int: неиспользованная локальная переменная
+C:\git_code\ConsoleApplication7\Pars.h(549,13): warning C4101: i: неиспользованная локальная переменная
+C:\git_code\ConsoleApplication7\bitmap\bitmap_image.hpp(1248,48): warning C4244: return: преобразование "double" в "unsigned int", возможна потеря данных
+C:\git_code\ConsoleApplication7\bitmap\bitmap_image.hpp(1248,1): warning C4056: переполнение при арифметических операциях с константой с плавающей точкой
+C:\git_code\ConsoleApplication7\bitmap\bitmap_image.hpp(1258,48): warning C4244: return: преобразование "double" в "unsigned int", возможна потеря данных
+C:\git_code\ConsoleApplication7\bitmap\bitmap_image.hpp(1258,1): warning C4056: переполнение при арифметических операциях с константой с плавающей точкой
+C:\git_code\ConsoleApplication7\Pars.h(155): warning C4715: Parser::clear: значение возвращается не при всех путях выполнения
+C:\git_code\ConsoleApplication7\Pars.h(412): warning C4715: Parser::img: значение возвращается не при всех путях выполнения
   ConsoleApplication7.vcxproj -> C:\git_code\ConsoleApplication7\Debug\ConsoleApplication7.exe
