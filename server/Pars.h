@@ -5,8 +5,6 @@
 #include <locale.h>
 #include <sstream>
 #include <vector>
-#include "draw.h"
-
 
 using namespace std;
 
@@ -16,12 +14,10 @@ public:
     int const HEIGHT = 600;
     string* err;
     char** words;
-    draw bmp;
     void add_line() {
         *err = *err + "--------------------------------------\n";
     }
-    Parser() {
-    }
+
     //возврат большего числа
     int min_of_2(int a, int b)
     {
@@ -142,7 +138,7 @@ public:
         {
             int col_int;
             if (check_color(words[1], &col_int)) {
-                bmp.clear(words[1]);
+                cout << "вызвана команда очистки дисплея c параметром color: " << words[cnt-1] << endl;
                 return true;
             }
         }
@@ -162,7 +158,7 @@ public:
             if (check_cord(x, y))
                 if (check_color(words[3], &col_int))
                 {
-                    bmp.pixel(char_to_int(words[1]), char_to_int(words[2]), words[3]);
+                    cout << "Вызвана команда заливки пикселя (" << x << "; " << y << ") : " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -179,7 +175,7 @@ public:
             if (check_cord(x, y) && check_cord(x1, y1))
                 if (check_color(words[5], &col_int))
                 {
-                    bmp.line(char_to_int(words[1]), char_to_int(words[2]), char_to_int(words[3]), char_to_int(words[4]), words[5]);
+                    cout << "Вызвана команда создания линии A:(" << x << "; " << y << "); B:(" << x1 << "; " << y1 << "); color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -197,7 +193,7 @@ public:
             if (check_wh(w, h, x, y))
                 if (check_color(words[5], &col_int))
                 {
-                    bmp.rect_(char_to_int(words[1]), char_to_int(words[2]), char_to_int(words[3]), char_to_int(words[4]), words[5]);
+                    cout << "Вызвана команда прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -215,7 +211,7 @@ public:
             if (check_wh(w, h, x, y))
                 if (check_color(words[5], &col_int))
                 {
-                    bmp.fillrect(char_to_int(words[1]), char_to_int(words[2]), char_to_int(words[3]), char_to_int(words[4]), words[5]);
+                    cout << "Вызвана команда создания залитого прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -233,7 +229,7 @@ public:
             if (check_rad(rad_x, x, y) && check_rad(rad_y, x, y))
                 if (check_color(words[5], &col_int))
                 {
-                    bmp.ell(char_to_int(words[1]), char_to_int(words[2]), char_to_int(words[3]), char_to_int(words[4]), words[5]);
+                    cout << "Вызвана команда создания эллипса A:(" << x << "; " << y << "); radius_x: " << rad_x << "; radius_y: " << rad_y << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -251,7 +247,7 @@ public:
             if (check_rad(rad_x, x, y) && check_rad(rad_y, x, y))
                 if (check_color(words[5], &col_int))
                 {
-                    bmp.fill_ell(char_to_int(words[1]), char_to_int(words[2]), char_to_int(words[3]), char_to_int(words[4]), words[5]);
+                    cout << "Вызвана команда создания залитого эллипса A:(" << x << "; " << y << "); radius_x: " << rad_x << "; radius_y: " << rad_y << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -268,7 +264,7 @@ public:
             if (check_rad(rad, x, y))
                 if (check_color(words[4], &col_int))
                 {
-                    bmp.circle(char_to_int(words[1]), char_to_int(words[2]), char_to_int(words[3]), words[4]);
+                    cout << "Вызвана команда создания окружности A:(" << x << "; " << y << "); radius: " << rad << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -285,7 +281,7 @@ public:
             if (check_rad(rad, x, y))
                 if (check_color(words[4], &col_int))
                 {
-                    bmp.fill_circle(char_to_int(words[1]), char_to_int(words[2]), char_to_int(words[3]), words[4]);
+                    cout << "Вызвана команда создания заполненого круга A:(" << x << "; " << y << "); radius: " << rad << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -302,7 +298,7 @@ public:
             if (check_whrad(w, h, x, y, rad))
                 if (check_color(words[6], &col_int))
                 {
-                    bmp.round_rect(char_to_int(words[1]), char_to_int(words[2]), char_to_int(words[3]), char_to_int(words[4]), char_to_int(words[5]), words[6]);
+                    cout << "Вызвана команда создания прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; radius: " << rad << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -319,7 +315,7 @@ public:
             if (check_whrad(w, h, x, y, rad))
                 if (check_color(words[6], &col_int))
                 {
-                    bmp.fill_round_rect(char_to_int(words[1]), char_to_int(words[2]), char_to_int(words[3]), char_to_int(words[4]), char_to_int(words[5]), words[6]);
+                    cout << "Вызвана команда создания залитого прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; radius: " << rad << "; color: " << words[cnt-1] << endl;
                     return true;
                 }
         }
@@ -369,16 +365,11 @@ public:
         {
             int count = 0, x = char_to_int(words[1]), y = char_to_int(words[2]), w = char_to_int(words[3]), h = char_to_int(words[4]);
             int col_int, err_ = 0;
-            string str;
-            if (w * h > 9504) {
-                *err = *err + "Ошибка: слишком большое изображение, максимальное разрешение w*h = 9504 px\n";
-                add_line();
-                return false;
-            }
-            for (int i = 5, j = 0; i < cnt; i++, j++)
+            string data;
+            for (int i = 5; i < cnt; i++)
             {
                 if (check_color(words[i], &col_int)) {
-                    str = str + words[i];
+                    data = data + words[i] + " ";
                     count += 1;
                 }
                 else
@@ -393,22 +384,21 @@ public:
                 if ((w * h) == count) {
                     if (check_wh(w, h, x, y))
                         if (w * h == count)
-                        {
-                            char data[65000];
-                            strcpy(data, str.c_str());
-                            bmp.image(x, y, w, h, data);
-                            return true;
-                        }
-                        else
-                        {
-                            *err = *err + "Height * Width (" + int_to_string(w * h) + ") не равно количеству пикселей в data: " + int_to_string(count) + "\n";
-                            add_line();
-                        }
+                            if (check_color(words[5], &col_int))
+                            {
+                                cout << "Вызвана команда вывода картинки A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; data: " << data << endl;
+                                return true;
+                            }
                 }
-            *err = *err + "Ошибка: синтаксис команды: img X Y Width Height data (набор пикселей ххх; color 24bit: xxx, где х 0-8)\n";
-            add_line();
-            return false;
+                else
+                {
+                    *err = *err + "Height * Width (" + int_to_string(w * h) + ") не равно количеству пикселей в data: " + int_to_string(count) + "\n";
+                    add_line();
+                }
         }
+        *err = *err + "Ошибка: синтаксис команды: img X Y Width Height data (набор пикселей ххх; color 24bit: xxx, где х 0-8)\n";
+        add_line();
+        return false;
     }
 
     bool orintation(char** words, int cnt) {
@@ -575,8 +565,5 @@ public:
     {
         err = er;
         return lecs(str, end_prog);
-    }
-    void print() {
-         bmp.print();
     }
 };

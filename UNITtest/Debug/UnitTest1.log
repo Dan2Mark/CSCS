@@ -6,4 +6,5 @@ C:\git_code\UnitTest1\Pars.h(31,27): warning C4018: <: несоответств�
 C:\git_code\UnitTest1\Pars.h(118,31): warning C4018: <: несоответствие типов со знаком и без знака
 C:\git_code\UnitTest1\Pars.h(408,17): warning C4101: col_int: неиспользованная локальная переменная
 C:\git_code\UnitTest1\Pars.h(152): warning C4715: Parser::clear: значение возвращается не при всех путях выполнения
+     ╤ючфрхЄё  сшсышюЄхър C:\git_code\ConsoleApplication7\Debug\UnitTest1.lib ш юс·хъЄ C:\git_code\ConsoleApplication7\Debug\UnitTest1.exp
   UnitTest1.vcxproj -> C:\git_code\ConsoleApplication7\Debug\UnitTest1.dll
