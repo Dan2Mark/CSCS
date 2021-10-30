@@ -24,6 +24,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ConsoleApplication7</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Server</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -148,19 +149,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\UNITtest\pch.cpp" />
-    <ClCompile Include="..\UNITtest\UnitTest1.cpp" />
     <ClCompile Include="ConsoleApplication7.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\UNITtest\Pars.h" />
-    <ClInclude Include="..\UNITtest\pch.h" />
     <ClInclude Include="draw.h" />
     <ClInclude Include="Pars.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\UNITtest\UnitTest1.vcxproj" />
-    <None Include="..\UNITtest\UnitTest1.vcxproj.filters" />
-    <None Include="..\UNITtest\UnitTest1.vcxproj.user" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

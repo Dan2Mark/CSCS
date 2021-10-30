@@ -1,2 +1,3 @@
-﻿  ConsoleApplication5.cpp
-  ConsoleApplication5.vcxproj -> C:\Users\danma\source\repos\ConsoleApplication5\Debug\ConsoleApplication5.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(459,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (ConsoleApplication5.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  ConsoleApplication5.cpp
+  ConsoleApplication5.vcxproj -> C:\git_code\Server\Debug\Client.exe

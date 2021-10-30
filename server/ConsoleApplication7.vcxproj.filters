@@ -21,9 +21,6 @@
     <ClCompile Include="..\UNITtest\pch.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\UNITtest\UnitTest1.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pars.h">
@@ -32,16 +29,5 @@
     <ClInclude Include="draw.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\UNITtest\Pars.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\UNITtest\pch.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\UNITtest\UnitTest1.vcxproj" />
-    <None Include="..\UNITtest\UnitTest1.vcxproj.filters" />
-    <None Include="..\UNITtest\UnitTest1.vcxproj.user" />
   </ItemGroup>
 </Project>
