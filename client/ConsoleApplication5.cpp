@@ -10,6 +10,7 @@
 #include <locale.h>
 #include <Windows.h>
 #include <locale.h>
+#include "Pars_client.h"
 
 #define PORT 7777    // порт сервера
 
@@ -66,10 +67,13 @@ int main(int argc, char* argv[])
         // чтение сообщения с клавиатуры
         cout << "\nEnter command:\n";  fgets(&buff[0], sizeof(buff) - 1, stdin);
         if (!strcmp(&buff[0], "quit\n")) break;
-
+        string cmd;
+        Pars_client pars;
+        if (!pars.lecs(buff, &cmd)) continue;
         // Передача сообщений на сервер
-        sendto(my_sock, &buff[0], strlen(&buff[0]), 0, (sockaddr*)&dest_addr, sizeof(dest_addr));
-
+        char tab2[10*1014];
+        strcpy(tab2, cmd.c_str());
+        sendto(my_sock, &tab2[0], strlen(&tab2[0]) + 1 , 0, (sockaddr*)&dest_addr, sizeof(dest_addr));
         // Прием сообщения с сервера
         sockaddr_in server_addr;
         int server_addr_size = sizeof(server_addr);

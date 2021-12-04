@@ -147,6 +147,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleApplication5.cpp" />
+    <ClCompile Include="Pars_client.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Pars_client.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

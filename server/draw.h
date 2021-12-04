@@ -8,7 +8,7 @@
 #include <wingdi.h>
 #include <string>
 
-class draw {
+class GraphicsLib {
 private:
 	RECT rect;
 	HWND hWnd;
@@ -19,66 +19,17 @@ private:
     POINT oldPoint;
     HPEN hPen;
     int R, G, B;
-    int HEX_TO_DEC(char st[2])
-    {
-        int i, s, k = 0, p;
-        s = 0;
-        p = strlen(st) - 1;
-        for (i = 0; st[i] != '\0'; i++)
-        {
-            switch (toupper(st[i]))
-            {
-            case 'A': k = 10; break;
-            case 'B': k = 11; break;
-            case 'C': k = 12; break;
-            case 'D': k = 13; break;
-            case 'E': k = 14; break;
-            case 'F': k = 15; break;
-            case '1': k = 1; break;
-            case '2': k = 2; break;
-            case '3': k = 3; break;
-            case '4': k = 4; break;
-            case '5': k = 5; break;
-            case '6': k = 6; break;
-            case '7': k = 7; break;
-            case '8': k = 8; break;
-            case '9': k = 9; break;
-            case '0': k = 0; break;
-            }
-            s = s + k * pow(16, p);
-            p--;
-        }
-        return s;
-    }
-
-    int char_to_int(char str[]) {
-        int out = 0, err_ = 0;
-        for (int i = 0; i < strlen(str); i++) {
-            int buf = (int)str[i] - (int)'0';
-            if (buf <= 9 && buf >= 0) {
-                out = out * 10 + buf;
-            }
-            else err_ = 1;
-        }
-        if (err_ == 1) return -999;
-        return out;
-    }
-
-    void color_set(char* str) {
-        char st[2];
-        st[1] = str[1]; st[1] = str[1]; std::cout << str[1];
-        R = HEX_TO_DEC(st);
-        st[0] = str[2]; st[1] = str[3];
-        G = HEX_TO_DEC(st);
-        st[0] = str[4]; st[1] = str[5];
-        B = HEX_TO_DEC(st);
+    void color_set(int* str) {    
+            R = str[0];
+            G = str[1];
+            B = str[2];
     }
 public:
-
+    int Width, Height;
     void print() {
         BitBlt(hDC, 0, 0, rect.right, rect.bottom, hBufferDC, 0, 0, SRCCOPY);
     }
-	draw () {
+	GraphicsLib () {
 		hWnd = GetConsoleWindow();
 		hDC = GetDC(hWnd);
 		GetClientRect(hWnd, &rect);
@@ -87,24 +38,25 @@ public:
 		hBufferDC = CreateCompatibleDC(hDC);
 		hBufferBmp = CreateBitmap(rect.right, rect.bottom, 1, 32, NULL);
 		hBufferBmpOld = (HBITMAP)SelectObject(hBufferDC, hBufferBmp);
-
+        Width = rect.right - rect.left;
+        Height = rect.bottom - rect.top;
 	}
 
-	~draw() {
+	~GraphicsLib() {
 		SelectObject(hBufferDC, hBufferBmpOld);
 		DeleteObject(hBufferBmp);
 		DeleteDC(hBufferDC);
 		ReleaseDC(hWnd, hDC);
 	}
-	void clear(char* col) {
+	void clear(int* col) {
         color_set(col);
-        printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n %d %d %d", R, G, B);
+        //printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n %d %d %d %s", R, G, B, col);
         hbr = CreateSolidBrush(RGB(R, G, B));
 		FillRect(hBufferDC, &rect, hbr);
         print();
 	}
 
-    void pixel(int x, int y, char* col) {
+    void pixel(int x, int y, int* col) {
         color_set(col);
         hPen = CreatePen(PS_SOLID, 1, RGB(R, G, B));
         DeleteObject(SelectObject(hBufferDC, hPen));
@@ -112,37 +64,42 @@ public:
         LineTo(hBufferDC, x+1, y+1);
         print();
     }
-    void line(int x, int y, int x1, int y1, char* col) {
+    void line(int x, int y, int x1, int y1, int* col) {
         color_set(col);
         HPEN hPen = CreatePen(PS_SOLID, 1, RGB(R, G, B));
         DeleteObject(SelectObject(hBufferDC, hPen));
         MoveToEx(hBufferDC, x, y, &oldPoint);
         LineTo(hBufferDC, x1, y1);
+        print();
 
     }
-    void rect_(int x, int y, int w, int h, char* col) {
-        int x1 = x + w, y1 = y;
+    void rect_(int x, int y, int w, int h, int* col) {
+        int x1 = x + w, y1 = y + h;
         color_set(col);
         hPen = CreatePen(PS_SOLID, 1, RGB(R, G, B));
-        hbr = CreateSolidBrush(RGB(R,G,B));
+        hbr = CreateSolidBrush(RGB(R, G, B));
         DeleteObject(SelectObject(hBufferDC, hPen));
         MoveToEx(hBufferDC, x, y, &oldPoint);
-        Rectangle(hDC, x, y, x + w, y + h);
+        LineTo(hBufferDC, x1, y);
+        LineTo(hBufferDC, x1, y1);
+        LineTo(hBufferDC, x, y1); 
+        LineTo(hBufferDC, x, y);
+        print();
         return;
     }
-    void fillrect(int x, int y, int w, int h, char* col) {
+    void fillrect(int x, int y, int w, int h, int* col) {
         int x1 = x + w, y1 = y;
         color_set(col);
         hPen = CreatePen(PS_SOLID, 1, RGB(R, G, B));
         DeleteObject(SelectObject(hBufferDC, hPen));
         MoveToEx(hBufferDC, x, y, &oldPoint);
-        for (y1 = 0; y1 < y+h; y1++) {
+        for (y1 = y; y1 < y+h; y1++) {
             MoveToEx(hBufferDC, x, y1, &oldPoint);
             LineTo(hBufferDC, x1, y1);
         }    
     return;
     }
-    void circle(int x, int y, int r, char* col)
+    void circle(int x, int y, int r, int* col)
     {
         int x1 = x, y1 = y;
         color_set(col);
@@ -160,7 +117,7 @@ public:
         }
         return;
     }
-    void fill_circle(int x, int y, int r, char* col)
+    void fill_circle(int x, int y, int r, int* col)
     {
         int x1 = x, y1 = y;
         color_set(col);
@@ -172,7 +129,7 @@ public:
         }
         return;
     }
-    void fill_ell(int x, int y, int a, int b, char* col)
+    void fill_ell(int x, int y, int a, int b, int* col)
     {
         int x1 = x, y1 = y;
         color_set(col);
@@ -186,7 +143,7 @@ public:
         return;
     }
 
-    void ell(int x, int y, int a, int b, char* col)
+    void ell(int x, int y, int a, int b, int* col)
     {
         int x1 = x, y1 = y;
         color_set(col);
@@ -202,7 +159,7 @@ public:
         }
         return;
     }
-    void round_rect(int x, int y, int w, int h, int r, char* col)
+    void round_rect(int x, int y, int w, int h, int r, int* col)
     {
         int x1 = x, y1 = y, x2, y2;
         color_set(col);
@@ -213,25 +170,25 @@ public:
         for (x1 = x2 - r; x1 <= x2; x1++) {
             LineTo(hBufferDC, x1, y1 = y2 - sqrt(r * r - (x2 - x1) * (x2 - x1)));
         }
-        LineTo(hBufferDC, x1 + w - r, y1);
-        x2 = x1 + w - r; y2 = y1 + r;
+        LineTo(hBufferDC, x1 + w - 2*r, y1);
+        x2 = x1 + w - 2*r; y2 = y1 + r;
         for (x1 = x2; x1 <= x2+r; x1++) {
             LineTo(hBufferDC, x1, y1 = y2 - sqrt(r * r - (x2 - x1) * (x2 - x1)));
         }
-        LineTo(hBufferDC, x1, y1 + h - r);
-        x2 = x1 - r; y2 = y1 + h - r;
+        LineTo(hBufferDC, x1, y1 + h - 2*r);
+        x2 = x1 - r; y2 = y1 + h - 2*r;
         for (x1 = x2 + r; x1 >= x2; x1--) {
             LineTo(hBufferDC, x1, y1 = y2 + sqrt(r * r - (x2 - x1) * (x2 - x1)));
         }
-        LineTo(hBufferDC, x2 = x1 - w + r, y1);
+        LineTo(hBufferDC, x2 = x1 - w + 2*r, y1);
         y2 = y1 - r;
         for (x1 = x2; x1 >= x2 - r; x1--) { 
             LineTo(hBufferDC, x1, y1 = y2 + sqrt(r * r - (x2 - x1) * (x2 - x1)));
         }
-        LineTo(hBufferDC, x1, y1 - h + r);
+        LineTo(hBufferDC, x1, y1 - h + 2*r);
         return;
     }
-    void fill_round_rect(int x, int y, int w, int h, int r, char* col)
+    void fill_round_rect(int x, int y, int w, int h, int r, int* col)
     {
         int x1 = x, y1 = y, x2, y2;
         color_set(col);
@@ -254,25 +211,58 @@ public:
             LineTo(hBufferDC, x - r + w + sqrt(r * r - (y1 - y) * (y1 - y)), y1 + h - r);
         }
     }
-    void image(int x, int y, int w, int h, char data_[])
+    void image(int x, int y, int w, int h, int* data_)
     {
         int x1 = x, y1 = y, i = 0;
      
         for (y1 = y; y1 < y + h; y1++)
             for (x1 = x; x1 < x + w; x1++)
             {
-                char data[6];
-                for (int j = 0; j < 6; j++) {
-                    data[j] = data_[i];
-                    i++;
-                }
-                    color_set(data);
+                    color_set(&data_[i]);
                     hPen = CreatePen(PS_SOLID, 1, RGB(R, G, B));
                     DeleteObject(SelectObject(hBufferDC, hPen));
                     MoveToEx(hBufferDC, x1, y1, &oldPoint);
                     LineTo(hBufferDC, x1+1, y1);
-            
+                    i+=3;
             }
                     return;
+    }
+    void text(int x, int y, int f, char* text, int* col) {
+        RECT rc;
+        HFONT font;
+        HGDIOBJ old;
+        color_set(col);
+        font = CreateFont(-f, 0, 0, 0, 0, 0u, 0U, 0U, ANSI_CHARSET, 0U, 0U, 0U, 0U, TEXT("Calibri"));
+        old = SelectObject(hBufferDC, font);
+        SetRect(&rc, x, y, x+strlen(text)*f, y + f);
+        SetBkMode(hBufferDC, TRANSPARENT);
+        SetTextColor(hBufferDC, RGB(R, G, B)); 
+
+        const size_t cSize = strlen(text) + 1;
+        wchar_t* wc = new wchar_t[cSize]; 
+        mbstowcs(wc, text, cSize);
+        // вывести текст по середине(горизонтали)
+        DrawText(hBufferDC, wc, -1, &rc, DT_SINGLELINE | DT_VCENTER);
+
+        SelectObject(hBufferDC, old);
+        DeleteObject(font);
+   }
+
+    void poly(int x, int y, int r, int side, int* col)
+    {
+        int x1 = x, y1 = y, x2, y2;
+        color_set(col);
+        for (int i = 0; i < 3; i++) std::cout << col[i];
+        hPen = CreatePen(PS_SOLID, 1, RGB(R, G, B));
+        DeleteObject(SelectObject(hBufferDC, hPen));
+        x2 = r * sin(3.1415 / 180 * (-(360 / side))) + x;
+        y2 = r * cos(3.1415 / 180 * (-(360 / side))) + y;
+        MoveToEx(hBufferDC, x2, y2, &oldPoint);
+        for (int i = 1; i <= side; i++) {
+            x1 = r * sin(3.1415 / 180 * (-(360 / side) * i)) + x;
+            y1 = r * cos(3.1415 / 180 * (-(360 / side) * i)) + y;
+            LineTo(hBufferDC, x1, y1);
+        }
+        LineTo(hBufferDC, x2, y2);
     }
 };

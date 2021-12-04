@@ -5,6 +5,9 @@
 #include <locale.h>
 #include <sstream>
 #include <vector>
+#include "draw.h"
+#include <time.h>
+#include <math.h>
 
 using namespace std;
 
@@ -14,6 +17,9 @@ public:
     int const HEIGHT = 600;
     string* err;
     char** words;
+    GraphicsLib bmp;
+    bool clock = false;
+    int col_cl[3];
     void add_line() {
         *err = *err + "--------------------------------------\n";
     }
@@ -112,8 +118,8 @@ public:
         return false;
     }
     // проверка цвета
-    bool check_color(char col[], int* col_i) {
-        int col_int = 0, err_ = 0;
+    bool check_color(char col[]) {
+        int err_ = 0;
         if (strlen(col) == 6) {
             for (int i = 0; i < strlen(col); i++) {
                 if (((col[i] >= '0')&& (col[i] <= '9'))|| ((col[i] >= 'A') && (col[i] <= 'F')) || ((col[i] >= 'a') && (col[i] <= 'f'))) {
@@ -122,7 +128,6 @@ public:
                 else err_ = 1;
             }
             if (err_ == 0) {
-                *col_i = col_int;
                 return true;
             }
         }
@@ -131,439 +136,253 @@ public:
         return false;
     }
 
-    // команды
-
-    bool clear(char** words, int cnt) {
-        if (cnt == 2)
-        {
-            int col_int;
-            if (check_color(words[1], &col_int)) {
-                cout << "вызвана команда очистки дисплея c параметром color: " << words[cnt-1] << endl;
-                return true;
-            }
+    void ch2col(char* str, int* col) {
+        for (int i = 0; i < 3; i++) {
+            col[i] = (int)str[i] + 128;
         }
-        else
-        {
-            *err = *err + "Ошибка: синтаксис команды: clear ххх (color 24bit: xxx, где х 0-8)\n";
-            add_line();
-            return false;
-        }
+        return;
     }
 
-    bool pixel(char** words, int cnt) {
-        if (cnt == 4)
-        {
-            int x = char_to_int(words[1]), y = char_to_int(words[2]);
-            int col_int;
-            if (check_cord(x, y))
-                if (check_color(words[3], &col_int))
-                {
-                    cout << "Вызвана команда заливки пикселя (" << x << "; " << y << ") : " << words[cnt-1] << endl;
-                    return true;
-                }
-        }
-        *err = *err + "Ошибка: синтаксис команды: pixel X Y ххх (color 24bit: xxx, где х 0-8)\n";
-        add_line();
-        return false;
+    void ch2int(char* str, int* out) {
+        unsigned char bytes[4];
+        for (int i = 0; i < 4; i++) bytes[i] = str[i] + 128;
+        copy(bytes, bytes + 4, (char*)out);
     }
-
-    bool line(char** words, int cnt) {
-        if (cnt == 6)
-        {
-            int x = char_to_int(words[1]), y = char_to_int(words[2]), x1 = char_to_int(words[3]), y1 = char_to_int(words[4]);
-            int col_int;
-            if (check_cord(x, y) && check_cord(x1, y1))
-                if (check_color(words[5], &col_int))
-                {
-                    cout << "Вызвана команда создания линии A:(" << x << "; " << y << "); B:(" << x1 << "; " << y1 << "); color: " << words[cnt-1] << endl;
-                    return true;
-                }
-        }
-        *err = *err + "Ошибка: синтаксис команды: line X1 Y1 X2 Y2 ххх (color 24bit: xxx, где х 0-8)\n";
-        add_line();
-        return false;
-    }
-
-
-    bool rect(char** words, int cnt) {
-        if (cnt == 6)
-        {
-            int x = char_to_int(words[1]), y = char_to_int(words[2]), w = char_to_int(words[3]), h = char_to_int(words[4]);
-            int col_int;
-            if (check_wh(w, h, x, y))
-                if (check_color(words[5], &col_int))
-                {
-                    cout << "Вызвана команда прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; color: " << words[cnt-1] << endl;
-                    return true;
-                }
-        }
-        *err = *err + "Ошибка: синтаксис команды: rect X Y Width Height ххх (color 24bit: xxx, где х 0-8)\n";
-        add_line();
-        return false;
-    }
-
-
-    bool fill_rect(char** words, int cnt) {
-        if (cnt == 6)
-        {
-            int x = char_to_int(words[1]), y = char_to_int(words[2]), w = char_to_int(words[3]), h = char_to_int(words[4]);
-            int col_int;
-            if (check_wh(w, h, x, y))
-                if (check_color(words[5], &col_int))
-                {
-                    cout << "Вызвана команда создания залитого прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; color: " << words[cnt-1] << endl;
-                    return true;
-                }
-        }
-        *err = *err + "Ошибка: синтаксис команды: fill_rect X Y Width Height ххх (color 24bit: xxx, где х 0-8)\n";
-        add_line();
-        return false;
-    }
-
-
-    bool ell(char** words, int cnt) {
-        if (cnt == 6)
-        {
-            int x = char_to_int(words[1]), y = char_to_int(words[2]), rad_x = char_to_int(words[3]), rad_y = char_to_int(words[4]);
-            int col_int;
-            if (check_rad(rad_x, x, y) && check_rad(rad_y, x, y))
-                if (check_color(words[5], &col_int))
-                {
-                    cout << "Вызвана команда создания эллипса A:(" << x << "; " << y << "); radius_x: " << rad_x << "; radius_y: " << rad_y << "; color: " << words[cnt-1] << endl;
-                    return true;
-                }
-        }
-        *err = *err + "Ошибка: синтаксис команды: ell X Y radius_X radius_Y ххх (color 24bit: xxx, где х 0-8)\n";
-        add_line();
-        return false;
-    }
-
-
-    bool fill_ell(char** words, int cnt) {
-        if (cnt == 6)
-        {
-            int x = char_to_int(words[1]), y = char_to_int(words[2]), rad_x = char_to_int(words[3]), rad_y = char_to_int(words[4]);
-            int col_int;
-            if (check_rad(rad_x, x, y) && check_rad(rad_y, x, y))
-                if (check_color(words[5], &col_int))
-                {
-                    cout << "Вызвана команда создания залитого эллипса A:(" << x << "; " << y << "); radius_x: " << rad_x << "; radius_y: " << rad_y << "; color: " << words[cnt-1] << endl;
-                    return true;
-                }
-        }
-        *err = *err + "Ошибка: синтаксис команды: fill_ell X Y radius_X radius_Y ххх (color 24bit: xxx, где х 0-8)\n";
-        add_line();
-        return false;
-    }
-
-    bool circle(char** words, int cnt) {
-        if (cnt == 5)
-        {
-            int x = char_to_int(words[1]), y = char_to_int(words[2]), rad = char_to_int(words[3]);
-            int col_int;
-            if (check_rad(rad, x, y))
-                if (check_color(words[4], &col_int))
-                {
-                    cout << "Вызвана команда создания окружности A:(" << x << "; " << y << "); radius: " << rad << "; color: " << words[cnt-1] << endl;
-                    return true;
-                }
-        }
-        *err = *err + "Ошибка: синтаксис команды: circle X Y radius ххх (color 24bit: xxx, где х 0-8)\n";
-        add_line();
-        return false;
-    }
-
-    bool fill_circle(char** words, int cnt) {
-        if (cnt == 5)
-        {
-            int x = char_to_int(words[1]), y = char_to_int(words[2]), rad = char_to_int(words[3]);
-            int col_int;
-            if (check_rad(rad, x, y))
-                if (check_color(words[4], &col_int))
-                {
-                    cout << "Вызвана команда создания заполненого круга A:(" << x << "; " << y << "); radius: " << rad << "; color: " << words[cnt-1] << endl;
-                    return true;
-                }
-        }
-        *err = *err + "Ошибка: синтаксис команды: fill_circle X Y radius ххх (color 24bit: xxx, где х 0-8)\n";
-        add_line();
-        return false;
-    }
-
-    bool round_rect(char** words, int cnt) {
-        if (cnt == 7)
-        {
-            int x = char_to_int(words[1]), y = char_to_int(words[2]), w = char_to_int(words[3]), h = char_to_int(words[4]), rad = char_to_int(words[5]);
-            int col_int;
-            if (check_whrad(w, h, x, y, rad))
-                if (check_color(words[6], &col_int))
-                {
-                    cout << "Вызвана команда создания прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; radius: " << rad << "; color: " << words[cnt-1] << endl;
-                    return true;
-                }
-        }
-        *err = *err + "Ошибка: синтаксис команды: round_rect X Y width height radius ххх (color 24bit: xxx, где х 0-8)\n";
-        add_line();
-        return false;
-    }
-
-    bool fill_round_rect(char** words, int cnt) {
-        if (cnt == 7)
-        {
-            int x = char_to_int(words[1]), y = char_to_int(words[2]), w = char_to_int(words[3]), h = char_to_int(words[4]), rad = char_to_int(words[5]);
-            int col_int;
-            if (check_whrad(w, h, x, y, rad))
-                if (check_color(words[6], &col_int))
-                {
-                    cout << "Вызвана команда создания залитого прямоугольника A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; radius: " << rad << "; color: " << words[cnt-1] << endl;
-                    return true;
-                }
-        }
-        *err = *err + "Ошибка: синтаксис команды: fill_round_rect X Y width height radius ххх (color 24bit: xxx, где х 0-8)\n";
-        add_line();
-        return false;
-    }
-
-    bool text(char** words, int cnt) {
-        if (cnt >= 7)
-        {
-            int count = 0, x = char_to_int(words[1]), y = char_to_int(words[2]), font = char_to_int(words[3]), lenght = char_to_int(words[4]);
-            string text;
-            for (int i = 5; i < cnt - 1; i++)
-            {
-                text = text + words[i] + " ";
-                count += (strlen(words[i]) + 1);
-            }
-            int col_int;
-            if (count <= lenght) {
-                if (font != -999) {
-                    if (check_cord(x, y))
-                        if (check_color(words[cnt - 1], &col_int))
-                        {
-                            cout << "Вызвана команда добавление текста А: (" << x << "; " << y << "); font: " << font << "; length: " << lenght << "; text: ''" << text << "''; color: " << words[cnt-1] << endl;
-                            return true;
-                        }
-                }
-                else {
-                    *err = *err + "Размер текста должен быть числом";
-                    add_line();
-                }
-            }
-            else
-            {
-                *err = *err + "Количество символов текста " + int_to_string(count) + " превышает length: " + int_to_string(lenght) + "\n";
-                add_line();
-            }
-        }
-        *err = *err + "Ошибка: синтаксис команды: text X Y font_size length text ххх (color 24bit: xxx, где х 0-8)\n";
-        add_line();
-        return false;
-    }
-
-    bool img(char** words, int cnt) {
-        if (cnt >= 6)
-        {
-            int count = 0, x = char_to_int(words[1]), y = char_to_int(words[2]), w = char_to_int(words[3]), h = char_to_int(words[4]);
-            int col_int, err_ = 0;
-            string data;
-            for (int i = 5; i < cnt; i++)
-            {
-                if (check_color(words[i], &col_int)) {
-                    data = data + words[i] + " ";
-                    count += 1;
-                }
-                else
-                {
-                    *err = *err + "Пиксель №" + int_to_string(count + 1) + " не является 24 битным цветом\n";
-                    add_line();
-                    err_ = 1;
-                    break;
-                }
-            }
-            if (err_ == 0)
-                if ((w * h) == count) {
-                    if (check_wh(w, h, x, y))
-                        if (w * h == count)
-                            if (check_color(words[5], &col_int))
-                            {
-                                cout << "Вызвана команда вывода картинки A:(" << x << "; " << y << "); width: " << w << "; height: " << h << "; data: " << data << endl;
-                                return true;
-                            }
-                }
-                else
-                {
-                    *err = *err + "Height * Width (" + int_to_string(w * h) + ") не равно количеству пикселей в data: " + int_to_string(count) + "\n";
-                    add_line();
-                }
-        }
-        *err = *err + "Ошибка: синтаксис команды: img X Y Width Height data (набор пикселей ххх; color 24bit: xxx, где х 0-8)\n";
-        add_line();
-        return false;
-    }
-
-    bool orintation(char** words, int cnt) {
-        if (cnt == 2)
-        {
-            int col_int, angle = char_to_int(words[1]);
-            if (angle != -999 && angle <= 3 && angle >= 0) {
-                angle *= 90;
-                cout << "вызвана команда установки ориентации на " << angle << " градусов" << endl;
-                return true;
-            }
-            else {
-                *err = *err + "Не корректный angle (0=0, 1=90, 2=180, 3=270)\n";
-            }
-        }
-        else
-        {
-            *err = *err + "Ошибка: синтаксис команды: orientation angle (0=0, 1=90, 2=180, 3=270)\n";
-            add_line();
-        }
-        return false;
-    }
-
-    bool get(char** words, int cnt) {
-        if (cnt == 2)
-        {
-            if (strcmp(words[1], "width") == 0) { *err = *err + "Ширина: " + int_to_string(WIDTH) + "\n"; return true; }
-            else if (strcmp(words[1], "height") == 0) { *err = *err + "Высота: " + int_to_string(HEIGHT) + "\n"; return true; }
-            else
-            {
-                *err = *err + "Ошибка: синтаксис команды: get width/height\n";
-                add_line();
-            }
-
-        }
-        else
-        {
-            *err = *err + "Ошибка: синтаксис команды: get width/height1\n";
-            add_line();
-        }
-        return false;
-    }
-
 
     // проверка команды
-    bool check_cmd(int cnt, bool* end_prog) {
+    bool check_cmd(char str[], bool* end_prog) {
         setlocale(LC_ALL, "Russian");
+        //for (int i = 0; i < strlen(str); i++) cout << (int)str[i] + 128 << "|"; cout << endl;
         add_line();
-        //exit
-        if (strcmp(words[0], "exit") == 0) { *end_prog = true; return true; }
-        //clear color
-        else if (strcmp(words[0], "clear") == 0)
+        int x, y, x1, y1, w, h, r, r1, font;
+        int col[3];
+        switch (str[0])
         {
-            return clear(words, cnt);
-        }
-        //pixel x1 y1 color
-        else if (strcmp(words[0], "pixel") == 0)
-        {
-            return pixel(words, cnt);
-        }
-        //line x1 y1 x2 y2 color
-        else if (strcmp(words[0], "line") == 0)
-        {
-            return line(words, cnt);
-        }
-        //rect x1 y1 w h color
-        else if (strcmp(words[0], "rect") == 0)
-        {
-            return rect(words, cnt);
-        }
-        //fill_rect x1 y1 w h color
-        else if (strcmp(words[0], "fill_rect") == 0)
-        {
-            return fill_rect(words, cnt);
-        }
-        //ell x y rad_x rad_y color
-        else if (strcmp(words[0], "ell") == 0)
-        {
-            return ell(words, cnt);
-        }
-        //fill_ell x y rad_x rad_y color
-        else if (strcmp(words[0], "fill_ell") == 0)
-        {
-            return fill_ell(words, cnt);
-        }
-        //circle x y rad color
-        else if (strcmp(words[0], "circle") == 0)
-        {
-            return circle(words, cnt);
-        }
-        //fill_circle x y rad color
-        else if (strcmp(words[0], "fill_circle") == 0)
-        {
-            return fill_circle(words, cnt);
-        }
-        //round_rect x1 y1 w h radius color
-        else if (strcmp(words[0], "round_rect") == 0)
-        {
-            return round_rect(words, cnt);
-        }
-        //fill_round_rect x1 y1 w h radius color
-        else if (strcmp(words[0], "fill_round_rect") == 0)
-        {
-            return fill_round_rect(words, cnt);
-        }
-        //text x1 y1 font lenght text color
-        else if (strcmp(words[0], "text") == 0)
-        {
-            return text(words, cnt);
-        }
-        //img x1 y1 w h data
-        else if (strcmp(words[0], "img") == 0)
-        {
-            return img(words, cnt);
-        }
-        //orintation angle
-        else if (strcmp(words[0], "orintation") == 0)
-        {
-            return orintation(words, cnt);
-        }
-        //get width/height
-        else if (strcmp(words[0], "get") == 0)
-        {
-            return get(words, cnt);
-        }
-        else
-        {
-            *err = *err + "Команда не найдена\n";
-            add_line();
+        case 1:
+            //clear
+            ch2col(&str[1], col);
+            bmp.clear(col);
+            break;
+        case 2:
+            //pixel
+            ch2int(&str[1], &x); ch2int(&str[5], &y);
+            if (check_cord(x, y))
+            {
+                ch2col(&str[9], col);
+                bmp.pixel(x, y, col);
+                return true;
+            }
+            else
+                return false;
+            break;
+        case 3:
+            //line
+            ch2int(&str[1], &x); ch2int(&str[5], &y); ch2int(&str[9], &x1); ch2int(&str[13], &y1);
+            if (check_cord(x, y) && check_cord(x1, y1))
+            {
+                ch2col(&str[17], col);
+                bmp.line(x, y, x1, y1, col);
+                return true;
+            }
+            else
+                return false;
+            break;
+        case 4:
+            //rect
+            ch2int(&str[1], &x); ch2int(&str[5], &y); ch2int(&str[9], &w); ch2int(&str[13], &h);
+            if (check_cord(x, y) && check_cord(x + w, y + h))
+            {
+                ch2col(&str[17], col);
+                bmp.rect_(x, y, w, h, col);
+                return true;
+            }
+            else
+                return false;
+            break;
+        case 5:
+            //fill_rect
+            ch2int(&str[1], &x); ch2int(&str[5], &y); ch2int(&str[9], &w); ch2int(&str[13], &h);
+            if (check_cord(x, y) && check_cord(x + w, y + h))
+            {
+                ch2col(&str[17], col);
+                bmp.fillrect(x, y, w, h, col);
+                return true;
+            }
+            else
+                return false;
+            break;
+        case 6:
+            //ell
+            ch2int(&str[1], &x); ch2int(&str[5], &y); ch2int(&str[9], &r); ch2int(&str[13], &r1);
+            if (check_cord(x, y))
+            {
+                ch2col(&str[17], col);
+                bmp.ell(x, y, r, r1, col);
+                return true;
+            }
+            else
+                return false;
+            break;
+        case 7:
+            //fill_ell
+            ch2int(&str[1], &x); ch2int(&str[5], &y); ch2int(&str[9], &r); ch2int(&str[13], &r1);
+            if (check_cord(x, y))
+            {
+                ch2col(&str[17], col);
+                bmp.fill_ell(x, y, r, r1, col);
+                return true;
+            }
+            else
+                return false;
+            break;
+        case 8:
+            //circle
+            ch2int(&str[1], &x); ch2int(&str[5], &y); ch2int(&str[9], &r);
+            if (check_cord(x, y))
+            {
+                ch2col(&str[13], col);
+                bmp.circle(x, y, r, col);
+                return true;
+            }
+            else
+                return false;
+            break;
+        case 9:
+            //fill_circle
+            ch2int(&str[1], &x); ch2int(&str[5], &y); ch2int(&str[9], &r);
+            if (check_cord(x, y))
+            {
+                ch2col(&str[13], col);
+                bmp.fill_circle(x, y, r, col);
+                return true;
+            }
+            else
+                return false;
+            break;
+        case 10:
+            //round_rect
+            ch2int(&str[1], &x); ch2int(&str[5], &y); ch2int(&str[9], &w); ch2int(&str[13], &h);  ch2int(&str[17], &r);
+            if (check_whrad(w, h, x, y, r))
+            {
+                ch2col(&str[21], col);
+                bmp.round_rect(x, y, w, h, r, col);
+                return true;
+            }
+            else
+                return false;
+            break;
+        case 11:
+            //round_rect
+            ch2int(&str[1], &x); ch2int(&str[5], &y); ch2int(&str[9], &w); ch2int(&str[13], &h);  ch2int(&str[17], &r);
+            if (check_whrad(w, h, x, y, r))
+            {
+                ch2col(&str[21], col);
+                bmp.fill_round_rect(x, y, w, h, r, col);
+                return true;
+            }
+            else
+                return false;
+            break;
+        case 12:
+            //round_rect
+            ch2int(&str[1], &x); ch2int(&str[5], &y); ch2int(&str[9], &font);
+            if (check_cord(x, y))
+            {
+                ch2col(&str[13], col);
+                bmp.text(x, y, font, &str[16], col);
+                return true;
+            }
+            else
+                return false;
+            break;
+        case 13:
+            //image
+            ch2int(&str[1], &x); ch2int(&str[5], &y); ch2int(&str[9], &w);; ch2int(&str[13], &h);
+            if (check_cord(x, y))
+            {
+                int data[1000];
+                for (int i = 17, j = 0; i < (w * h) * 3 + 17; i++, j++) { ch2col(&str[i], &data[j]); }
+                bmp.image(x, y, w, h, data);
+                return true;
+            }
+            else
+                return false;
+            break;
+        case 14:
+            if ((int)str[1] == 32)  *err = *err + "Ширина робочей области: " + int_to_string(bmp.Width);
+            else if ((int)str[1] == 1)  *err = *err + "Высота робочей области: " + int_to_string(bmp.Height);
+            return true;
+            break;
+        case 15:
+            //clock
+            ch2col(&str[1],col_cl);
+            clock = true;
+            break;
+        case 16:
+            //poly
+            ch2int(&str[1], &x); ch2int(&str[5], &y); ch2int(&str[9], &r); ch2int(&str[13], &h); ch2col(&str[17], col);
+            cout << x << y << r << h;
+            if (check_cord(x, y))
+            {
+                bmp.poly(x, y, r, h, col);
+                return true;
+            }
+            else
+                return false;
+            break;
+        case 17:
+            clock = false;
+            break;
+        default:
             return false;
+            break;
+
         }
     }
-
-    // разбив на лексемы
-    bool lecs(char str[], bool* end_prog) {
+    void get_rot_xy(int x, int y, int r, int pices, int data, int* out_x, int* out_y) {
         
-        char* p = NULL;
-        int i, count_ = 0;
-        for (p = strtok(str, " "); p != NULL; p = strtok(NULL, " ")) {
-            if ((words = (char**)realloc(words, sizeof(char*) * (count_ + 1))) == NULL) {
-                printf("No memory to new word!\n");
-                exit(1);
-            }
-            if ((words[count_] = _strdup(p)) == NULL) {
-                printf("Can't duplicate word!\n");
-                exit(1);
-            }
-            ++count_;
-        }
-      
-        bool err_ = check_cmd(count_, end_prog);
-
-        for (int i = 0; i < count_; ++i) {
-            if (words[i] != NULL) {
-                free(words[i]);
-                words[i] = NULL;
-            }
-        }
-        free(words);
-        words = NULL;
-        return err_;
+        *out_x = r * sin(3.1415 / 180 * (-(360 / pices) * data)) + x;
+        *out_y = r * cos(3.1415 / 180 * (-(360/pices) * data)) + y;
     }
+    void clock_() {
+        if (clock) {
+            int x = 50, y = 50, r = 40, x1, y1, x2, y2;
+            int col[3] = { 0,0,0 };
+            bmp.fill_circle(x, y, r, col);
+            bmp.fillrect(x-30,y+r*1.5,x+40,y+r*2, col);
+            bmp.circle(x, y, r, col_cl);
+            time_t seconds = time(NULL);
+            int hour = (2 + seconds / 3600) % 24, minute = seconds / 60 % 60; seconds = seconds % 60;
+            char clock_t[100];
+            sprintf(clock_t, "%d:%d", hour, minute);
+            bmp.text(x - 30, y + r*1.5, 30, clock_t, col_cl);
+            col[0] = 255; col[1] = 255; col[2] = 255;
+            for (int i = 0; i < 12; i++)
+            {
+                get_rot_xy(x, y, r, 12, i, &x2, &y2);
+                if (i%3==0)get_rot_xy(x, y, r - 7, 12, i, &x1, &y1);
+                else get_rot_xy(x, y, r - 4, 12, i, &x1, &y1);
+                bmp.line(x2, y2, x1, y1, col);
+            }
+            get_rot_xy(x, y, r / 2, 12, hour / 2, &x1, &y1);
+            bmp.line(x, y, x1, y1, col);
+            bmp.line(x+1, y+1, x1+1, y1+1, col);
+            get_rot_xy(x, y, r - 3, 60, minute + 30, &x1, &y1);
+            bmp.line(x, y, x1, y1, col);
+            col[0] = 255; col[1] = 0; col[2] = 0;
+            get_rot_xy(x, y, r, 60, seconds, &x1, &y1);
+            bmp.line(x, y, x1, y1, col);
+            Sleep(1000);
+        }
+        return;
+    }
+
     bool do_cmd(char str[], bool* end_prog, string* er)
     {
         err = er;
-        return lecs(str, end_prog);
+        return check_cmd(str, end_prog);
+    }
+    void print() {
+        bmp.print();
     }
 };
